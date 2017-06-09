@@ -87,53 +87,12 @@ public class BatterySettings extends SettingsPreferenceFragment
         enableStatusBarBatteryDependents(batteryStyle);
         mStatusBarBatteryShowPercent.setOnPreferenceChangeListener(this);
 
-        // Battery bar
-        mBatteryBar = (ListPreference) findPreference(PREF_BATT_BAR);
-        mBatteryBar.setOnPreferenceChangeListener(this);
-       // mBatteryBar.setValue((Settings.System.getInt(resolver, Settings.System.BATTERY_BAR_LOCATION, 0)) + "");
-        mBatteryBar.setSummary(mBatteryBar.getEntry());
-
-        mBatteryBarStyle = (ListPreference) findPreference(PREF_BATT_BAR_STYLE);
-        mBatteryBarStyle.setOnPreferenceChangeListener(this);
-        mBatteryBarStyle.setValue((Settings.System.getInt(resolver,
-               // Settings.System.BATTERY_BAR_STYLE, 0)) + "");
-        mBatteryBarStyle.setSummary(mBatteryBarStyle.getEntry());
-
-        mBatteryBarColor = (ColorPickerPreference) findPreference(PREF_BATT_BAR_COLOR);
-        mBatteryBarColor.setOnPreferenceChangeListener(this);
-        mBatteryBarColor.setSummary(mBatteryBarColor.getSummaryText() + ColorPickerPreference.convertToARGB(Settings.System.getInt(resolver,
-                    // Settings.System.BATTERY_BAR_COLOR, mBatteryBarColor.getPrefDefault())));
-      //  mBatteryBarColor.setNewPreviewColor(Settings.System.getInt(resolver, Settings.System.BATTERY_BAR_COLOR, mBatteryBarColor.getPrefDefault()));
-
-        mBatteryBarChargingAnimation = (SwitchPreference) findPreference(PREF_BATT_ANIMATE);
-        mBatteryBarChargingAnimation.setChecked(Settings.System.getInt(resolver,
-              //  Settings.System.BATTERY_BAR_ANIMATE, 0) == 1);
-
-        mBatteryBarThickness = (ListPreference) findPreference(PREF_BATT_BAR_WIDTH);
-        mBatteryBarThickness.setOnPreferenceChangeListener(this);
-        mBatteryBarThickness.setValue((Settings.System.getInt(resolver,
-               // Settings.System.BATTERY_BAR_THICKNESS, 1)) + "");
-        mBatteryBarThickness.setSummary(mBatteryBarThickness.getEntry());
-
-        updateBatteryBarOptions();
-    }
-
+       
     @Override
     protected int getMetricsCategory() {
         return MetricsEvent.PURE;
     }
 
-    @Override
-    public boolean onPreferenceTreeClick(Preference preference) {
-        boolean value;
-        if (preference == mBatteryBarChargingAnimation) {
-            value = mBatteryBarChargingAnimation.isChecked();
-          //  Settings.System.putInt(getContentResolver(), Settings.System.BATTERY_BAR_ANIMATE, value ? 1 : 0);
-        } else {
-            return super.onPreferenceTreeClick(preference);
-        }
-        return false;
-    }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object objValue) {
@@ -159,30 +118,7 @@ public class BatterySettings extends SettingsPreferenceFragment
             Settings.Secure.putInt(resolver,
                     Settings.Secure.STATUS_BAR_BATTERY_STYLE_TILE, checked ? 1:0);
             return true;
-        } else if (preference == mBatteryBarColor) {
-           // Settings.System.putInt(resolver, Settings.System.BATTERY_BAR_COLOR, (Integer) objValue);
-            preference.setSummary(((ColorPickerPreference) preference).getSummaryText() + ColorPickerPreference.convertToARGB((Integer) objValue));
-            return true;
-        } else if (preference == mBatteryBar) {
-            int val = Integer.valueOf((String) objValue);
-            int index = mBatteryBar.findIndexOfValue((String) objValue);
-           // Settings.System.putInt(resolver, Settings.System.BATTERY_BAR_LOCATION, val);
-            mBatteryBar.setSummary(mBatteryBar.getEntries()[index]);
-            updateBatteryBarOptions();
-            return true;
-        } else if (preference == mBatteryBarStyle) {
-            int val = Integer.valueOf((String) objValue);
-            int index = mBatteryBarStyle.findIndexOfValue((String) objValue);
-           // Settings.System.putInt(resolver, Settings.System.BATTERY_BAR_STYLE, val);
-            mBatteryBarStyle.setSummary(mBatteryBarStyle.getEntries()[index]);
-            return true;
-        } else if (preference == mBatteryBarThickness) {
-            int val = Integer.valueOf((String) objValue);
-            int index = mBatteryBarThickness.findIndexOfValue((String) objValue);
-           // Settings.System.putInt(resolver, Settings.System.BATTERY_BAR_THICKNESS, val);
-            mBatteryBarThickness.setSummary(mBatteryBarThickness.getEntries()[index]);
-            return true;
-        }
+        } 
         return false;
     }
 
@@ -196,23 +132,6 @@ public class BatterySettings extends SettingsPreferenceFragment
         } else {
             mStatusBarBatteryShowPercent.setEnabled(true);
             mQsBatteryTitle.setEnabled(true);
-        }
-    }
-
-    private void updateBatteryBarOptions() {
-        if (Settings.System.getInt(getActivity().getContentResolver(),
-           // Settings.System.BATTERY_BAR_LOCATION, 0) == 0) {
-            mBatteryBarStyle.setEnabled(false);
-            mBatteryBarThickness.setEnabled(false);
-            mBatteryBarChargingAnimation.setEnabled(false);
-            mBatteryBarColor.setEnabled(false);
-            mBatteryBarColor.setPreviewDim(false);
-        } else {
-            mBatteryBarStyle.setEnabled(true);
-            mBatteryBarThickness.setEnabled(true);
-            mBatteryBarChargingAnimation.setEnabled(true);
-            mBatteryBarColor.setEnabled(true);
-            mBatteryBarColor.setPreviewDim(true);
         }
     }
 }
