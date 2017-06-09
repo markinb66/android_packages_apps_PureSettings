@@ -41,22 +41,11 @@ public class BatterySettings extends SettingsPreferenceFragment
     private static final String STATUS_BAR_BATTERY_STYLE = "status_bar_battery_style";
     private static final String STATUS_BAR_BATTERY_STYLE_TILE = "status_bar_battery_style_tile";
 
-    private static final String PREF_BATT_BAR = "battery_bar_list";
-    private static final String PREF_BATT_BAR_STYLE = "battery_bar_style";
-    private static final String PREF_BATT_BAR_COLOR = "battery_bar_color";
-    private static final String PREF_BATT_BAR_WIDTH = "battery_bar_thickness";
-    private static final String PREF_BATT_ANIMATE = "battery_bar_animate";
-
     private ListPreference mStatusBarBattery;
     private ListPreference mStatusBarBatteryShowPercent;
     private SwitchPreference mQsBatteryTitle;
 
-    private ListPreference mBatteryBar;
-    private ListPreference mBatteryBarStyle;
-    private ListPreference mBatteryBarThickness;
-    private SwitchPreference mBatteryBarChargingAnimation;
-    private ColorPickerPreference mBatteryBarColor;
-
+   
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
